@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: debug
+
+spring:
+  application:
+    name: mss-gateway
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:9000/eureka/
+
+zuul:
+  routes:
+    node-7001:
+      path: /node-7001/**
+      serviceId: buz-service-7001
+    node-7002:
+      path: /node-7002/**
+      url: buz-service-7002
+
+security:
+  oauth2:
+    client:
+      clientId: gateway-demo
+      clientSecret: 1
+      scope:
+      - all
+      access-token-uri: http://127.0.0.1:2333/api/oauth/token
+      user-authorization-uri: http://127.0.0.1:2333/api/oauth/authorize
+    resource:
+      user-info-uri:  http://127.0.0.1:2333/api/user/me
+      prefer-token-info: false
+    sso:
+      login-path: /login
