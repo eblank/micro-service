@@ -25,6 +25,9 @@ zuul:
     node-7002:
       path: /node-7002/**
       url: buz-service-7002
+    node-book:
+      path: /bookStore/**
+      url: buz-service-7001, buz-service-7002
 
 security:
   oauth2:
